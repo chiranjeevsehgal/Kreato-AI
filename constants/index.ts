@@ -79,7 +79,7 @@ export const navLinks = [
       name: "Pro Package",
       icon: "/free-plan.svg",
       price: 40,
-      credits:'40$ / Month',
+      credits:'199 Rs / Month',
       inclusions: [
         {
           label: Intl.NumberFormat('en-US').format(100000) +" Credits",
