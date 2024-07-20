@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
 interface FormData {
@@ -82,6 +83,12 @@ const Contact: React.FC = () => {
             Submit
           </button>
         </form>
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-2">Contact Information</h3>
+          <p className="mb-2"><strong>Address:</strong> Lucknow, India</p>
+          <p className="mb-2"><strong>Email:</strong> enigmaticpro01@gmail.com</p>
+          <p className="mb-2"><strong>Phone:</strong> +91 9987177212</p>
+        </div>
       </div>
     </div>
   );
