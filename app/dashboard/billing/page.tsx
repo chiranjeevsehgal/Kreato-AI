@@ -37,7 +37,7 @@ const Billing = () => {
             <p className="font-semibold text-[20px] leading-[140%] mt-2 text-primary">
               {plan.name}
             </p>
-            <p className="max-w-[500px] flex-wrap text-center text-white shadow-sm text-dark-600">${plan.price}</p>
+            <p className="max-w-[500px] flex-wrap text-center text-white shadow-sm text-dark-600">Rs. {plan.price}</p>
             <p className="font-normal text-[16px] leading-[140%]">{plan.credits}</p>
           </div>
 

@@ -6,6 +6,7 @@ import { UserSubscriptionContext } from "../context/UserSubscriptionContext";
 import Header from "./_components/Header";
 import Sidebar from "./_components/Sidebar";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { Toaster } from 'react-hot-toast';
 
 const Layout = ({
     children,
@@ -31,6 +32,7 @@ const Layout = ({
                 <div className="md:ml-64">
                   <Header />
                   {children}
+                  <Toaster position="top-center" reverseOrder={false} />
                 </div>
               </div>
             </UpdateCreditUsage.Provider>

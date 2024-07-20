@@ -17,30 +17,31 @@ import { TotalUsageContext } from "@/app/context/TotalUsageContext";
 import { useRouter } from 'next/navigation';
 import { UpdateCreditUsage } from "@/app/context/UpdateCreditUsage";
 import { UserSubscriptionContext } from "@/app/context/UserSubscriptionContext";
-
+import toast, { Toaster } from 'react-hot-toast';
 
 const CreateNewContent = (props: PROPS) => {
     const [loading, setLoading] = useState(false);
     const [aiGeneratedOutput, setAiGeneratedOutput] = useState<string>();
-    const {user} =useUser()
-    const {totalUsage,setTotalUsage} = useContext(TotalUsageContext);
-    const {updateUsage,setUpdateUsage} = useContext(UpdateCreditUsage);
-    const {userSubscription,setUserSubscription} = useContext(UserSubscriptionContext);
+    const { user } = useUser()
+    const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
+    const { updateUsage, setUpdateUsage } = useContext(UpdateCreditUsage);
+    const { userSubscription, setUserSubscription } = useContext(UserSubscriptionContext);
     const router = useRouter()
 
     const selectedTemplate: TEMPLATES | undefined = Templates?.find((item) => item.slug === props.params["template-slug"]);
 
     const generateAiContent = async (formData: string) => {
-        if (totalUsage > 10000 && !userSubscription) {
+        if (totalUsage > 800 && !userSubscription) {
+            toast.error("Please Upgrade")
             router.push("/dashboard/billing");
             console.log("Please Upgrade");
             return; // Exit early or show alert dialog
         }
-    
+
         setLoading(true);
         const selectedPrompt = selectedTemplate?.aiPrompt;
         const finalPrompt = JSON.stringify(formData) + ", " + selectedPrompt;
-    
+
         try {
             const result = await chatSession.sendMessage(finalPrompt);
             const responseText = await result?.response.text();
@@ -55,7 +56,7 @@ const CreateNewContent = (props: PROPS) => {
             console.error('Error generating content:', error);
         }
     };
-    
+
     const saveInDB = async (formData: string, slug: string, aiResponse: string) => {
         try {
             const result = await db.insert(AIOutput).values({
@@ -70,7 +71,7 @@ const CreateNewContent = (props: PROPS) => {
             console.error('Error saving to database:', error);
         }
     };
-    
+
 
     if (!selectedTemplate) {
         return (
@@ -95,15 +96,16 @@ const CreateNewContent = (props: PROPS) => {
                 </Button>
             </Link>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 py-5">
-                <FormSection 
+                <FormSection
                     selectedTemplate={selectedTemplate}
                     userFormInput={(value: any) => generateAiContent(value)}
                     loading={loading}
                 />
                 <div className="col-span-2">
-                    <OutputSection aiGeneratedOutput = {aiGeneratedOutput}/>
+                    <OutputSection aiGeneratedOutput={aiGeneratedOutput} />
                 </div>
             </div>
+            
         </div>
     )
 }

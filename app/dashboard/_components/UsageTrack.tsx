@@ -15,7 +15,7 @@ const UsageTrack = () => {
   const {totalUsage,setTotalUsage} = useContext(TotalUsageContext);
   const {updateUsage,setUpdateUsage} = useContext(UpdateCreditUsage);
   const {userSubscription,setUserSubscription} = useContext(UserSubscriptionContext);
-  const [maxWords, setMaxWords] = useState(10000);
+  const [maxWords, setMaxWords] = useState(800);
 
 
   
@@ -51,9 +51,9 @@ const UsageTrack = () => {
     };
     const IsUserSubscribe =async()=>{
       const result = await db.select().from(UserSubscription).where(eq(UserSubscription.email as any, user?.primaryEmailAddress?.emailAddress));
-      if(result){
+      if (result && result.length > 0) {
         setUserSubscription(true)
-        setMaxWords(5000)
+        setMaxWords(800)
       }
       else{
         setUserSubscription(false)
@@ -66,9 +66,12 @@ const UsageTrack = () => {
       <div className="bg-primary text-white rounded-lg p-3">
         <h2 className="font-medium">Credits</h2>
         <div className="h-2 bg-[#9981f9] w-full rounded-full mt-5">
-            <div className="rounded-full bg-white h-2"
-              style={{ width: `${(totalUsage / maxWords) * 100}%` }}
-            >
+        <div 
+        className={`rounded-full h-2 ${totalUsage > maxWords ? 'bg-red-500' : 'bg-white'}`}
+        style={{ 
+          width: totalUsage > maxWords ? '100%' : `${(totalUsage / maxWords) * 100}%` 
+        }}
+      >
             </div>
         </div>
         <h2 className="text-sm my-2">{totalUsage}/{Intl.NumberFormat('en-US').format(maxWords)} Credit Used</h2>
