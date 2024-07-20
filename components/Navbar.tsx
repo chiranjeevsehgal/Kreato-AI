@@ -9,8 +9,8 @@ const Navbar = () => {
         <Image
             src="/logo.svg"
             alt="A beautiful landscape"
-            width={120}
-            height={100}
+            width={150}
+            height={110}
             />
       </Link>
       <div>

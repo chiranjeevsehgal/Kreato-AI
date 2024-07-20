@@ -26,24 +26,25 @@ export const navLinks = [
 
   export const Features = [
     {
-      label: "20+ templates",
+      label: "15+ templates",
       icon: LayoutTemplateIcon,
-      desc: "20+ different types of AI-generated content that your app could offer",
+      desc: "Access over 15 diverse AI-generated content templates to enhance creativity and productivity in your app.",
     },
     {
-      label: "Easy Copy",
+      label: "Seamless Copying",
       icon: BookCopy,
-      desc: "Experience effortless content creation with Easy Copy delivers polished",
+      desc: "Effortlessly create polished content with our Easy Copy feature, streamlining the content creation process.",
+
     },
     {
-      label: "Free to Use",
+      label: "Free Features",
       icon: BookUserIcon,
-      desc: "free-to-use features designed to enhance your content creation journey.",
+      desc: "Enjoy a selection of powerful features at no cost, designed to boost your content creation experience.",
     },
     {
       label: "24/7 Support",
       icon: HelpingHand,
-      desc: "24/7 support is here to ensure that you receive assistance whenever you need.",
+      desc: "Get round-the-clock support to assist with any issues or questions, ensuring you always have help when you need it.",
     },
   ]
 
