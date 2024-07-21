@@ -1,62 +1,58 @@
 import React from "react"
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowDownRight, ArrowLeft, ArrowLeftRight, ArrowRight, ArrowRightIcon, LucideCircleArrowRight } from "lucide-react";
+import { ArrowRight, CircleArrowRight } from "lucide-react";
+import FeaturesContent from "./Features";
+import Navbar from "./Navbar";
+
+
 const HomeHeader = () => {
     return (
-        <div className="relative overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] dark:before:bg-[url('https://preline.co/assets/svg/examples-dark/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
+        <div className="relative overflow-hidden bg-gradient-to-br from-gray-800 via-purple-900 to-purple-700 text-white">
+            <Navbar/>
             <Image
-                className="
-                hidden
-                lg:block
-                absolute
-                top-1/2
-                -translate-y-1/2
-                -left-24
-                xl:-left-2
-                "
+                className="hidden lg:block absolute top-[40%] -translate-y-1/2 -left-24 xl:-left-2 opacity-70"
                 src="/DM-2.webp"
-                alt="A beautiful landscape"
+                alt="Robot"
                 width={120}
                 height={100}
             />
             <Image
-                className="
-                hidden
-                lg:block
-                absolute
-                top-1/2
-                -translate-y-1/2
-                -right-24
-                xl:-right-2
-                "
+                className="hidden lg:block absolute top-[40%] -translate-y-1/2 -right-24 xl:-right-2 opacity-70"
                 src="/DM-2.webp"
-                alt="A beautiful landscape"
+                alt="Robot"
                 width={120}
                 height={100}
             />
-            <div className="flex flex-col gap-6 justify-center items-center max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
+            <div className="flex flex-col gap-6 justify-center items-center max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
                 <div>
-                    <Link href="/dashboard" className="inline-flex items-center gap-x-2 bg-white border border-gray-200 text-sm text-gray-800 p-1 ps-3 rounded-full transition hover:border-gray-300 dark:bg-neutral-800 dark:border-neutral-700 dark:hover:border-neutral-600 dark:text-neutral-200">
+                    <Link href="/dashboard/subscription" className="inline-flex items-center gap-x-2 bg-gray-800 text-sm text-white p-2 ps-3 rounded-full transition hover:bg-gray-700">
                         Kreato Ai Membership - Join Now
-                        <LucideCircleArrowRight />
+                        <CircleArrowRight className="w-5 h-5" />
                     </Link>
                 </div>
-                <div>
-                    <h1 className="block font-bold text-gray-800 text-4xl md:text-5xl lg:text-6xl dark:text-neutral-200">AI Content
-                        <span className="bg-clip-text bg-gradient-to-tl from-blue-600 to-violet-600 text-transparent">Generator</span>
+                <div className="text-center">
+                    <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+                        {/* AI Content */}
+                        AI-Powered 
+                        <span className="block mt-1 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
+                            {/* Generator */}
+                            Content Creation
+
+                        </span>
                     </h1>
                 </div>
-                <div className="mt-3 max-w-3xl text-center mx-auto">
-                    <p className="text-lg text-gray-600 dark:text-neutral-400">Revolutionize your content creation with our AI-powered app, delivering engaging and high-quality text in seconds.</p>
+                <div className="mt-3 max-w-xl text-center mx-auto">
+                    <p className="text-base sm:text-lg text-gray-300">Revolutionize your content creation with our AI-powered app, delivering tailored, high-quality content in seconds.</p>
                 </div>
                 <div className="mt-3">
-                    <Link href="/dashboard" className="inline-flex justify-center items-center  gap-x-3 text-center bg-gradient-to-tl from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-3 px-4 dark:focus:ring-offset-gray-800">
+                    <Link href="/dashboard" className="inline-flex justify-center items-center gap-x-3 text-center bg-gradient-to-r from-blue-600 to-purple-600 hover:from-purple-600 hover:to-blue-600 text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 py-3 px-6 transition-all duration-300">
                         <span>Get started</span>
-                        <ArrowRightIcon />
+                        <ArrowRight className="w-5 h-5" />
                     </Link>
                 </div>
             </div>
+            <FeaturesContent/>
         </div>
     )
 }

@@ -12,13 +12,13 @@ export const navLinks = [
       icon: FileClock,
     },
     {
-      label: "Billing",
-      route: "/dashboard/billing",
+      label: "Subscription",
+      route: "/dashboard/subscription",
       icon: WalletCards,
     },
     {
-      label: "Setting",
-      route: "/dashboard/setting",
+      label: "Settings",
+      route: "/dashboard/settings",
       icon: Settings,
     },
     

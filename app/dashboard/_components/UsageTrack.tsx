@@ -1,89 +1,105 @@
 'use client'
 import React, { useContext, useEffect, useState } from 'react';
-import { Button } from "@/components/ui/button"
 import { db } from "@/utils/dbConnection"
-import { AIOutput,UserSubscription } from "@/utils/Schema"
+import { AIOutput, UserSubscription } from "@/utils/Schema"
 import { useUser } from "@clerk/nextjs";
-import {eq} from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { HISTORY } from "@/app/(type)/Type";
-import { TotalUsageContext } from '@/app/context/TotalUsageContext';
-import { UpdateCreditUsage } from '@/app/context/UpdateCreditUsage';
-import { UserSubscriptionContext } from '@/app/context/UserSubscriptionContext';
+import { TotalUsageContext } from '@/app/(context)/TotalUsageContext';
+import { UpdateCreditUsage } from '@/app/(context)/UpdateCreditUsage';
+import { UserSubscriptionContext } from '@/app/(context)/UserSubscriptionContext';
 import Link from 'next/link';
-const UsageTrack = () => {
-  const {user} = useUser()
-  const {totalUsage,setTotalUsage} = useContext(TotalUsageContext);
-  const {updateUsage,setUpdateUsage} = useContext(UpdateCreditUsage);
-  const {userSubscription,setUserSubscription} = useContext(UserSubscriptionContext);
-  const [maxWords, setMaxWords] = useState(800);
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
-
-  
-    useEffect(() => {
-        user&&getData()
-        user&&IsUserSubscribe()
-      },[user]);
-
-      useEffect(() => {
-        user&&getData()
-      },[updateUsage&&user]);
-
-    const getData =async ()=>{
-        const result:HISTORY[] = await db.select().from(AIOutput).where(eq(AIOutput.createdBy as any, user?.primaryEmailAddress?.emailAddress)); 
-        countTotalUsage(result)
-    }
-    const countWords = (text: string) => {
-      return text ? text.replace(/[#*]/g, '').split(/\s+/).filter(word => word.length > 0).length : 0;
-    };
-    
-    const countTotalUsage = (result: HISTORY[]) => {
-      let total: number = 0;
-    
-      result.forEach(element => {
-        if (element.aiResponse) {
-          const wordCount = countWords(element.aiResponse);
-          console.log('wordCount', wordCount);
-          total += wordCount;
-        }
-      });
-      setTotalUsage(total)
-      console.log('total', total);
-    };
-    const IsUserSubscribe =async()=>{
-      const result = await db.select().from(UserSubscription).where(eq(UserSubscription.email as any, user?.primaryEmailAddress?.emailAddress));
-      if (result && result.length > 0) {
-        setUserSubscription(true)
-        setMaxWords(800)
-      }
-      else{
-        setUserSubscription(false)
-
-      }
-    }
-    
-  return (
-    <div className="m-5">
-      <div className="bg-primary text-white rounded-lg p-3">
-        <h2 className="font-medium">Credits</h2>
-        <div className="h-2 bg-[#9981f9] w-full rounded-full mt-5">
-        <div 
-        className={`rounded-full h-2 ${totalUsage > maxWords ? 'bg-red-500' : 'bg-white'}`}
-        style={{ 
-          width: totalUsage > maxWords ? '100%' : `${(totalUsage / maxWords) * 100}%` 
-        }}
-      >
-            </div>
-        </div>
-        <h2 className="text-sm my-2">{totalUsage}/{Intl.NumberFormat('en-US').format(maxWords)} Credit Used</h2>
-      </div>
-      <div className='w-full my-3 bg-slate-200 text-center py-2 rounded-lg'>
-        <Link href="/dashboard/billing" className=" text-primary">
-          Upgrade
-        </Link>
-      </div>
-      
-    </div>
-  )
+interface UsageTrackProps {
+  isExpanded: boolean;
 }
 
-export default UsageTrack
+const UsageTrack: React.FC<UsageTrackProps> = ({ isExpanded }) => {
+  const { user } = useUser();
+  const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
+  const { updateUsage } = useContext(UpdateCreditUsage);
+  const { userSubscription, setUserSubscription } = useContext(UserSubscriptionContext);
+  const [maxWords, setMaxWords] = useState<number>(800);
+
+  useEffect(() => {
+    if (user) {
+      getData();
+      IsUserSubscribe();
+    }
+  }, [user, updateUsage]);
+
+  const getData = async (): Promise<void> => {
+    const result = await db.select().from(AIOutput).where(eq(AIOutput.createdBy as any, user?.primaryEmailAddress?.emailAddress));
+    countTotalUsage(result);
+  }
+
+  const countWords = (text: string): number => {
+    return text ? text.replace(/[#*]/g, '').split(/\s+/).filter(word => word.length > 0).length : 0;
+  };
+
+  const countTotalUsage = (result: HISTORY[]): void => {
+    const total = result.reduce((acc, element) => {
+      return acc + (element.aiResponse ? countWords(element.aiResponse) : 0);
+    }, 0);
+    setTotalUsage(total);
+  };
+
+  const IsUserSubscribe = async (): Promise<void> => {
+    const result = await db.select().from(UserSubscription).where(eq(UserSubscription.email as any, user?.primaryEmailAddress?.emailAddress));
+    setUserSubscription(result && result.length > 0);
+    setMaxWords(result && result.length > 0 ? 10000 : 800);
+  }
+
+  const percentage = Math.min((totalUsage / maxWords) * 100, 100);
+
+  return (
+    <div className={`bg-gray-800 p-4 rounded-lg ${isExpanded ? 'text-sm' : 'text-xs'}`}>
+      {isExpanded ? (
+        <>
+          <h2 className="font-medium text-white mb-3">Credits Usage</h2>
+          <div className="w-24 h-24 mx-auto mb-3">
+            <CircularProgressbar
+              value={percentage}
+              text={`${Math.round(percentage)}%`}
+              styles={buildStyles({
+                textSize: '16px',
+                pathColor: totalUsage > maxWords ? '#EF4444' : '#10B981',
+                textColor: '#FFFFFF',
+                trailColor: '#4B5563',
+              })}
+            />
+          </div>
+          <p className="text-center text-white mb-3">
+            {totalUsage}/{Intl.NumberFormat('en-US').format(maxWords)} Used
+          </p>
+          {!userSubscription ? (
+            <Link href="/dashboard/billing" className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+              Upgrade
+            </Link>
+          ) : (
+            <div className="block w-full text-center bg-yellow-600 text-white font-bold py-2 px-4 rounded cursor-pointer">
+              Gold Member
+            </div>
+          )}
+        </>
+      ) : (
+        <div className="text-center">
+          <CircularProgressbar
+            value={percentage}
+            text={`${Math.round(percentage)}%`}
+            styles={buildStyles({
+              textSize: '24px',
+              pathColor: totalUsage > maxWords ? '#EF4444' : '#10B981',
+              textColor: '#FFFFFF',
+              trailColor: '#4B5563',
+            })}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default UsageTrack;

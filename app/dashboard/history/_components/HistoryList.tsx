@@ -7,22 +7,22 @@ import { useUser } from "@clerk/nextjs";
 import { eq } from 'drizzle-orm';
 import { Templates } from "@/app/(data)/Templates";
 import { Button } from "@/components/ui/button";
-import { Loader2Icon } from 'lucide-react';
+import { Loader2Icon, Copy } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-// Define the type for your result items
 interface ResultItem {
   id: number;
   formData: string;
   aiResponse: string | null;
-  templateSlug: string; // Adjust this based on your actual data structure
+  templateSlug: string;
   createdBy: string;
-  createdAt: string | null; // Ensure createdAt can be null or string
+  createdAt: string | null;
   wordCount: number;
 }
 
 const HistoryList: React.FC = () => {
   const { user } = useUser();
-  const [result, setResult] = useState<ResultItem[]>([]); // Initialize with an empty array and specify the type
+  const [result, setResult] = useState<ResultItem[]>([]);
   const [loading, setLoading] = useState(false);
   const userEmail = user?.primaryEmailAddress?.emailAddress;
 
@@ -34,7 +34,7 @@ const HistoryList: React.FC = () => {
         id: item.id,
         formData: item.formData,
         aiResponse: item.aiResponse,
-        templateSlug: item.templateSlug, // Ensure this matches your database structure
+        templateSlug: item.templateSlug,
         createdBy: item.createdBy,
         createdAt: item.createdAt,
         wordCount: countWords(item.aiResponse),
@@ -62,47 +62,61 @@ const HistoryList: React.FC = () => {
   };
 
   return (
-    <div className='overflow-y-auto'>
-      <div className='m-5 p-5 rounded-lg bg-white'>
-        <h2 className='font-bold text-3xl'>History</h2>
-        <p className='text-gray-500'>Search your previously generated AI content</p>
-        <div className='grid grid-cols-7 bg-secondary py-3 px-3 mt-5'>
+    <motion.div 
+      className='overflow-y-auto'
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className='m-2 sm:m-5 p-3 sm:p-5 rounded-lg bg-gray-800 text-white shadow-xl'>
+        <h2 className='font-bold text-2xl sm:text-3xl text-purple-400'>History</h2>
+        <p className='text-gray-300 mb-3 sm:mb-5 text-sm sm:text-base'>Search your previously generated AI content</p>
+        <div className='hidden sm:grid grid-cols-12 gap-2 sm:gap-4 bg-gray-700 py-2 sm:py-3 px-2 sm:px-3 rounded-t-lg font-semibold text-xs sm:text-sm'>
           <h2 className='col-span-2'>TEMPLATE</h2>
-          <h2 className='col-span-2'>AI RESP</h2>
-          <h2>DATE</h2>
-          <h2>WORDS</h2>
-          <h2>COPY</h2>
+          <h2 className='col-span-4'>AI RESPONSE</h2>
+          <h2 className='col-span-2'>DATE</h2>
+          <h2 className='col-span-2'>WORDS</h2>
+          <h2 className='col-span-2'>ACTIONS</h2>
         </div>
         {loading ? (
           <div className='flex justify-center items-center mx-auto mt-5'>
-            <Loader2Icon className="animate-spin text-primary" />
+            <Loader2Icon className="animate-spin text-purple-500" />
           </div>
         ) : (
           result.map((item, index) => {
-            const template = findTemplate(item.templateSlug); // Adjust property name if needed
-            const formattedDate = item.createdAt // Handle null or undefined createdAt
+            const template = findTemplate(item.templateSlug);
+            const formattedDate = item.createdAt;
             return (
-              <div key={index} className='grid grid-cols-7 py-3 px-3'>
-                <div className='col-span-2 flex gap-2 items-center'>
-                  <img src={template?.icon} alt={template?.name} className='w-10 h-10' />
-                  <h2>{template?.name}</h2>
+              <motion.div 
+                key={index} 
+                className='flex flex-col sm:grid sm:grid-cols-12 gap-2 sm:gap-4 py-3 px-2 sm:px-3 border-b border-gray-700 hover:bg-gray-700 transition-colors duration-200'
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <div className='sm:col-span-2 flex gap-2 items-center'>
+                  <img src={template?.icon} alt={template?.name} className='w-6 h-6 sm:w-8 sm:h-8' />
+                  <span className='text-purple-300 truncate text-sm sm:text-base'>{template?.name}</span>
                 </div>
-                <div className='col-span-2 line-clamp-3'>{item.aiResponse}</div>
-                <div>{formattedDate}</div> {/* Display formatted date */}
-                <div>{item.wordCount}</div>
-                <div>
-                  <Button variant={"secondary"} className="text-primary"
+                <div className='sm:col-span-4 line-clamp-2 text-gray-300 text-sm sm:text-base mt-2 sm:mt-0'>{item.aiResponse}</div>
+                <div className='sm:col-span-2 text-gray-400 text-xs sm:text-sm mt-2 sm:mt-0'>{formattedDate}</div>
+                <div className='sm:col-span-2 text-gray-300 text-sm sm:text-base mt-2 sm:mt-0'>{item.wordCount} Words</div>
+                <div className='sm:col-span-2 mt-2 sm:mt-0'>
+                  <Button 
+                    variant={"secondary"} 
+                    className="bg-purple-600 hover:bg-purple-700 text-white text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-4"
                     onClick={() => navigator.clipboard.writeText(item.aiResponse || '')}
                   >
+                    <Copy className="w-4 h-4 mr-1 sm:mr-2" />
                     Copy
                   </Button>
                 </div>
-              </div>
+              </motion.div>
             );
           })
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

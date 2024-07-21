@@ -13,11 +13,12 @@ import { db } from "@/utils/dbConnection";
 import { AIOutput } from "@/utils/Schema";
 import { useUser } from "@clerk/nextjs";
 import moment from "moment";
-import { TotalUsageContext } from "@/app/context/TotalUsageContext";
+import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
 import { useRouter } from 'next/navigation';
-import { UpdateCreditUsage } from "@/app/context/UpdateCreditUsage";
-import { UserSubscriptionContext } from "@/app/context/UserSubscriptionContext";
+import { UpdateCreditUsage } from "@/app/(context)/UpdateCreditUsage";
+import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext";
 import toast, { Toaster } from 'react-hot-toast';
+import { motion } from 'framer-motion';
 
 const CreateNewContent = (props: PROPS) => {
     const [loading, setLoading] = useState(false);
@@ -32,10 +33,15 @@ const CreateNewContent = (props: PROPS) => {
 
     const generateAiContent = async (formData: string) => {
         if (totalUsage > 800 && !userSubscription) {
-            toast.error("Please Upgrade")
+            toast.error("Please Upgrade", {
+                style: {
+                    background: '#333',
+                    color: '#fff',
+                }
+            });
             router.push("/dashboard/billing");
             console.log("Please Upgrade");
-            return; // Exit early or show alert dialog
+            return;
         }
 
         setLoading(true);
@@ -54,6 +60,12 @@ const CreateNewContent = (props: PROPS) => {
             setUpdateUsage(Date.now());
         } catch (error) {
             console.error('Error generating content:', error);
+            toast.error("Error generating content", {
+                style: {
+                    background: '#333',
+                    color: '#fff',
+                }
+            });
         }
     };
 
@@ -72,41 +84,60 @@ const CreateNewContent = (props: PROPS) => {
         }
     };
 
-
     if (!selectedTemplate) {
         return (
-            <div className="p-10">
+            <motion.div 
+                className="p-4 sm:p-6 md:p-10 bg-gray-800 text-white min-h-screen"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+            >
                 <Link href="/dashboard">
-                    <Button>
-                        <ArrowLeft />
+                    <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                        <ArrowLeft className="mr-2" />
                         <span>Back</span>
                     </Button>
                 </Link>
-                <p className="text-red-500">Template not found</p>
-            </div>
+                <p className="text-red-400 mt-4">Template not found</p>
+            </motion.div>
         );
     }
 
     return (
-        <div className="p-10">
+        <motion.div 
+            className="p-4 sm:p-6 md:p-10 bg-gray-800 text-white min-h-screen"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
             <Link href="/dashboard">
-                <Button>
-                    <ArrowLeft />
+                <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                    <ArrowLeft className="mr-2" />
                     <span>Back</span>
                 </Button>
             </Link>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 py-5">
-                <FormSection
-                    selectedTemplate={selectedTemplate}
-                    userFormInput={(value: any) => generateAiContent(value)}
-                    loading={loading}
-                />
-                <div className="col-span-2">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 py-5">
+                <div className="lg:col-span-1">
+                    <FormSection
+                        selectedTemplate={selectedTemplate}
+                        userFormInput={(value: any) => generateAiContent(value)}
+                        loading={loading}
+                    />
+                </div>
+                <div className="lg:col-span-2">
                     <OutputSection aiGeneratedOutput={aiGeneratedOutput} />
                 </div>
             </div>
-            
-        </div>
+            <Toaster 
+                position="top-center"
+                toastOptions={{
+                    style: {
+                        background: '#333',
+                        color: '#fff',
+                    },
+                }}
+            />
+        </motion.div>
     )
 }
 

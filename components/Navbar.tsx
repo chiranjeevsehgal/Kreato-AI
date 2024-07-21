@@ -14,7 +14,7 @@ const Navbar = () => {
             />
       </Link>
       <div>
-        <Link href="/dashboard" className='md:flex items-center gap-x-2 font-medium text-gray-500
+        <Link href="/dashboard" className='md:flex items-center gap-x-2 font-medium text-white
          hover:text-primary sm:border-s sm:border-gray-300 py-2 sm:py-0 sm:ms-4 sm:my-6 sm:ps-6
          hidden
          '>

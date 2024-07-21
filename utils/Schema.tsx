@@ -13,7 +13,7 @@ export const UserSubscription = pgTable('userSubscription', {
   id: serial('id').primaryKey(),
   email: varchar('email').notNull(),
   userName: varchar('userName').notNull(),
-  planID: varchar('planID').notNull(),
+  // planID: varchar('planID').notNull(),
   paymentID: varchar('paymentId').notNull(),
   joinDate: varchar('joinDate').notNull(),
   active: boolean('active')
