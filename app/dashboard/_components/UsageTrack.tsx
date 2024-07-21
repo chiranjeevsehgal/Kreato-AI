@@ -75,7 +75,7 @@ const UsageTrack: React.FC<UsageTrackProps> = ({ isExpanded }) => {
             {totalUsage}/{Intl.NumberFormat('en-US').format(maxWords)} Used
           </p>
           {!userSubscription ? (
-            <Link href="/dashboard/billing" className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+            <Link href="/dashboard/subscription" className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
               Upgrade
             </Link>
           ) : (

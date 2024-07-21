@@ -41,8 +41,8 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
           
           <div className="flex items-center space-x-2 sm:space-x-4">
             {!userSubscription ? (
-              <Link href="/dashboard/billing" className="bg-blue-600 text-white text-xs font-semibold py-2 px-3 rounded-full hover:bg-blue-700 transition-colors duration-300">
-                🔥 Join
+              <Link href="/dashboard/subscription" className="bg-blue-600 text-white text-xs font-semibold py-2 px-3 rounded-full hover:bg-blue-700 transition-colors duration-300">
+                🔥 Join Membership
               </Link>
             ) : (
               <div className="cursor-pointer bg-yellow-600 text-white text-xs font-semibold py-2 px-3 rounded-full">
