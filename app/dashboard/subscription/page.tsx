@@ -126,7 +126,7 @@ function Subscription() {
               <p className="font-semibold text-[20px] leading-[140%] mt-2 text-purple-400">
                 {plan.name}
               </p>
-              <p className="max-w-[500px] flex-wrap text-center text-white shadow-sm">Rs. {plan.price}</p>
+              {/* <p className="max-w-[500px] flex-wrap text-center text-white shadow-sm">Rs. {plan.price}</p> */}
               <p className="font-normal text-[16px] leading-[140%] text-gray-300">{plan.credits}</p>
             </div>
 
@@ -149,16 +149,17 @@ function Subscription() {
             </ul>
 
             {plan.name === "Free" ? (
-              <Button variant="outline" className="w-full rounded-full bg-purple-800 bg-cover text-purple-200 hover:bg-purple-700 hover:text-white">
+              <Button className="w-full rounded-full bg-purple-800 bg-cover text-purple-200 hover:bg-purple-700 hover:text-white">
                 Free Consumable
               </Button>
             ) : (
               <Button
+              variant="outline"
                 disabled={loading || userSubscription}
                 onClick={() => createSubscription()}
                 aria-describedby="product1" 
                 // className="mt-8 w-full text-center text-sm font-semibold bg-purple-600 hover:bg-purple-700 text-white"
-                className="w-full rounded-full bg-purple-800 bg-cover text-purple-200 hover:bg-purple-700 hover:text-white"
+                className={`w-full rounded-full  bg-cover text-purple-200 hover:bg-purple-700 hover:text-white ${userSubscription? "bg-yellow-600":"bg-purple-800"}`}
               >
                 {loading ? (
                   <div className="flex justify-center items-center">

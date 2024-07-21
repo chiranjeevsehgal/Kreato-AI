@@ -54,7 +54,7 @@ export const navLinks = [
       _id: 1,
       name: "Free",
       icon: "/free-plan.svg",
-      price: 0,
+      // price: 0,
       credits: "Free",
       inclusions: [
         {
@@ -77,10 +77,10 @@ export const navLinks = [
     },
     {
       _id: 2,
-      name: "Pro Package",
+      name: "Gold Plan",
       icon: "/free-plan.svg",
-      price: 40,
-      credits:'199 Rs / Month',
+      // price: 40,
+      credits:'₹ 199 / Month',
       inclusions: [
         {
           label: Intl.NumberFormat('en-US').format(100000) +" Credits",
