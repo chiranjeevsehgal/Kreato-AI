@@ -73,8 +73,8 @@ function Subscription() {
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         subscription_id: subId,
-        name: "AI App",
-        description: "AI App Subscription",
+        name: "Kreato AI",
+        description: "Gold Subscription",
         handler: async (response: any) => {
           setLoading(false);
           resolve(response);
