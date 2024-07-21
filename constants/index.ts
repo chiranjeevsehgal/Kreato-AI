@@ -58,7 +58,7 @@ export const navLinks = [
       credits: "Free",
       inclusions: [
         {
-          label: Intl.NumberFormat('en-US').format(10000) +" Credits",
+          label: Intl.NumberFormat('en-US').format(800) +" Credits",
           isIncluded: true,
         },
         {
@@ -80,7 +80,8 @@ export const navLinks = [
       name: "Gold Plan",
       icon: "/free-plan.svg",
       // price: 40,
-      credits:'₹ 199 / Month',
+      // credits:'₹ 199 / Month',
+      credits:'₹ 199',
       inclusions: [
         {
           label: Intl.NumberFormat('en-US').format(100000) +" Credits",
