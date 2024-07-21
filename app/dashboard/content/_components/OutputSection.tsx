@@ -6,6 +6,7 @@ import { Editor } from '@toast-ui/react-editor';
 import { Copy } from 'lucide-react';
 import { PROPS } from '@/app/(type)/Type';
 import { motion } from 'framer-motion';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface OutputSectionProps {
   aiGeneratedOutput?: string;
@@ -24,6 +25,7 @@ const OutputSection = ({ aiGeneratedOutput }: OutputSectionProps) => {
   const copyToClipboard = () => {
     if (aiGeneratedOutput) {
       navigator.clipboard.writeText(aiGeneratedOutput).then(() => {
+        toast.success("Copied!")
         // You could add a toast notification here for successful copy
       }).catch(err => {
         console.error("Failed to copy: ", err);
@@ -59,6 +61,15 @@ const OutputSection = ({ aiGeneratedOutput }: OutputSectionProps) => {
           previewStyle="vertical"
         />
       </div>
+      <Toaster 
+                position="top-center"
+                toastOptions={{
+                    style: {
+                        background: '#333',
+                        color: '#fff',
+                    },
+                }}
+            />
     </motion.div>
   );
 }

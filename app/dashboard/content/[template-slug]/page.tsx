@@ -2,7 +2,7 @@
 import { useContext, useState } from "react";
 import { PROPS } from "@/app/(type)/Type"
 import FormSection from "../_components/FormSection"
-import OutputSection from "../_components/OutputSecton"
+import OutputSection from "../_components/OutputSection"
 import { Templates } from '@/app/(data)/Templates'
 import { TEMPLATES } from '@/app/(type)/Type'
 import Link from "next/link"
@@ -39,7 +39,7 @@ const CreateNewContent = (props: PROPS) => {
                     color: '#fff',
                 }
             });
-            router.push("/dashboard/billing");
+            // router.push("/dashboard/subscription");
             console.log("Please Upgrade");
             return;
         }

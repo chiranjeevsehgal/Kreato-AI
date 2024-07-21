@@ -9,6 +9,7 @@ import { Templates } from "@/app/(data)/Templates";
 import { Button } from "@/components/ui/button";
 import { Loader2Icon, Copy } from 'lucide-react';
 import { motion } from 'framer-motion';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface ResultItem {
   id: number;
@@ -61,6 +62,18 @@ const HistoryList: React.FC = () => {
     return text ? text.replace(/[#*]/g, '').split(/\s+/).filter(word => word.length > 0).length : 0;
   };
 
+  const copyToClipboard = (resp:any) => {
+    if (resp) {
+      navigator.clipboard.writeText(resp).then(() => {
+        toast.success("Copied!")
+        // You could add a toast notification here for successful copy
+      }).catch(err => {
+        console.error("Failed to copy: ", err);
+        // You could add a toast notification here for failed copy
+      });
+    }
+  };
+
   return (
     <motion.div 
       className='overflow-y-auto'
@@ -105,8 +118,8 @@ const HistoryList: React.FC = () => {
                   <Button 
                     variant={"secondary"} 
                     className="bg-purple-600 hover:bg-purple-700 text-white text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-4"
-                    onClick={() => navigator.clipboard.writeText(item.aiResponse || '')}
-                  >
+                    onClick={() => copyToClipboard(item.aiResponse || '')}
+                    >
                     <Copy className="w-4 h-4 mr-1 sm:mr-2" />
                     Copy
                   </Button>
@@ -116,6 +129,15 @@ const HistoryList: React.FC = () => {
           })
         )}
       </div>
+      <Toaster 
+                position="top-center"
+                toastOptions={{
+                    style: {
+                        background: '#333',
+                        color: '#fff',
+                    },
+                }}
+            />
     </motion.div>
   );
 };

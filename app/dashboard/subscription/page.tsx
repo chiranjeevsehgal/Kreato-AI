@@ -59,6 +59,7 @@ function Subscription() {
       console.error('Subscription creation error:', error);
       setLoading(false);
     }
+    
   };
 
   const opPayment = (subId: string) => {
@@ -92,6 +93,7 @@ function Subscription() {
         reject(new Error('Payment failed'));
       });
       rzp.open();
+      
     });
   };
 
@@ -116,62 +118,57 @@ function Subscription() {
     }
   }
 
-   return (
-    <div className='overflow-y-auto max-w-[80%] flex justify-center items-center mx-auto'>
-      <ul className="m-5 p-5 grid grid-cols-2 gap-5 sm:grid-cols-1 md:gap-9 xl:grid-cols-2">
+  return (
+    <div className='overflow-y-auto w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8'>
+      <ul className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 my-8">
         {plans.map((plan) => (
-          <li key={plan.name} className="w-full rounded-[16px] border-2 border-purple-600/20 bg-gray-800 p-8 shadow-xl shadow-purple-600/20 lg:max-w-none">
-            <div className="flex justify-center items-center flex-col gap-3">
-              <Image src={plan.icon} alt="check" width={50} height={50} />
-              <p className="font-semibold text-[20px] leading-[140%] mt-2 text-purple-400">
-                {plan.name}
-              </p>
-              {/* <p className="max-w-[500px] flex-wrap text-center text-white shadow-sm">Rs. {plan.price}</p> */}
-              <p className="font-normal text-[16px] leading-[140%] text-gray-300">{plan.credits}</p>
+          <li key={plan.name} className="col-span-1 bg-gray-800 rounded-lg shadow-xl shadow-purple-600/20 border-2 border-purple-600/20 divide-y divide-gray-700">
+            <div className="p-6 space-y-6">
+              <div className="flex flex-col items-center">
+                <Image src={plan.icon} alt="plan icon" width={50} height={50} className="mb-3" />
+                <h3 className="text-xl font-semibold text-purple-400">{plan.name}</h3>
+                <p className="mt-2 text-sm text-gray-300">{plan.credits}</p>
+              </div>
+              
+              <ul className="space-y-4">
+                {plan.inclusions.map((inclusion) => (
+                  <li key={plan.name + inclusion.label} className="flex items-center">
+                    <Image
+                      src={`/${inclusion.isIncluded ? "check.svg" : "cross.svg"}`}
+                      alt={inclusion.isIncluded ? "included" : "not included"}
+                      width={20}
+                      height={20}
+                      className="mr-3 flex-shrink-0"
+                    />
+                    <p className="text-sm text-gray-300">{inclusion.label}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Inclusions */}
-            <ul className="flex flex-col gap-5 py-9">
-              {plan.inclusions.map((inclusion) => (
-                <li
-                  key={plan.name + inclusion.label}
-                  className="flex items-center gap-4"
+            <div className="px-6 py-4">
+              {plan.name === "Free" ? (
+                <Button className="w-full rounded-full bg-purple-800 text-purple-200 hover:bg-purple-700 hover:text-white">
+                  Free Consumable
+                </Button>
+              ) : (
+                <Button
+                  variant="outline"
+                  disabled={loading || userSubscription}
+                  onClick={() => createSubscription()}
+                  aria-describedby="product1" 
+                  className={`w-full rounded-full text-purple-200 hover:bg-purple-700 hover:text-white ${userSubscription ? "bg-yellow-600" : "bg-purple-800"}`}
                 >
-                  <Image
-                    src={`/${inclusion.isIncluded ? "check.svg" : "cross.svg"}`}
-                    alt="check"
-                    width={24}
-                    height={24}
-                  />
-                  <p className="font-normal text-[16px] leading-[140%] text-gray-300">{inclusion.label}</p>
-                </li>
-              ))}
-            </ul>
-
-            {plan.name === "Free" ? (
-              <Button className="w-full rounded-full bg-purple-800 bg-cover text-purple-200 hover:bg-purple-700 hover:text-white">
-                Free Consumable
-              </Button>
-            ) : (
-              <Button
-              variant="outline"
-                disabled={loading || userSubscription}
-                onClick={() => createSubscription()}
-                aria-describedby="product1" 
-                // className="mt-8 w-full text-center text-sm font-semibold bg-purple-600 hover:bg-purple-700 text-white"
-                className={`w-full rounded-full  bg-cover text-purple-200 hover:bg-purple-700 hover:text-white ${userSubscription? "bg-yellow-600":"bg-purple-800"}`}
-              >
-                {loading ? (
-                  <div className="flex justify-center items-center">
+                  {loading ? (
                     <Loader2Icon className="animate-spin" />
-                  </div>
-                ) : userSubscription ? (
-                  "Active Plan"
-                ) : (
-                  "Buy Now"
-                )}
-              </Button>
-            )}
+                  ) : userSubscription ? (
+                    "Active Plan"
+                  ) : (
+                    "Buy Now"
+                  )}
+                </Button>
+              )}
+            </div>
           </li>
         ))}
       </ul>

@@ -70,6 +70,7 @@ const FormSection = ({ selectedTemplate, userFormInput, loading }: SELECTEDTEMPL
                                 onChange={handleInputChange}
                                 required={item?.required}
                                 className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 text-xs sm:text-sm text-white"
+                                
                             />
                         )}
                     </motion.div>
