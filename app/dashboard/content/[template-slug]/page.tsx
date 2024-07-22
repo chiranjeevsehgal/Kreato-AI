@@ -40,7 +40,7 @@ const CreateNewContent = (props: PROPS) => {
                 }
             });
             // router.push("/dashboard/subscription");
-            console.log("Please Upgrade");
+            // console.log("Please Upgrade");
             return;
         }
 
@@ -51,7 +51,7 @@ const CreateNewContent = (props: PROPS) => {
         try {
             const result = await chatSession.sendMessage(finalPrompt);
             const responseText = await result?.response.text();
-            console.log('responseText', responseText);
+            // console.log('responseText', responseText);
             setAiGeneratedOutput(responseText);
             if (formData && selectedTemplate?.slug && responseText) {
                 await saveInDB(formData, selectedTemplate?.slug, responseText);
@@ -78,7 +78,7 @@ const CreateNewContent = (props: PROPS) => {
                 createdBy: user?.primaryEmailAddress?.emailAddress || '',
                 createdAt: moment().format("DD/MM/YYYY")
             });
-            console.log(result, user?.primaryEmailAddress?.emailAddress);
+            // console.log(result, user?.primaryEmailAddress?.emailAddress);
         } catch (error) {
             console.error('Error saving to database:', error);
         }

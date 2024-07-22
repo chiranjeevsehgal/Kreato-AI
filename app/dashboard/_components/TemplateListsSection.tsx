@@ -15,7 +15,7 @@ const TemplateListsSection = ({usersearchInput}:any) => {
     else{
       setTemplateList(Templates)
     }
-    console.log("searchInput",usersearchInput)
+    // console.log("searchInput",usersearchInput)
   },[usersearchInput]);
 
   return (

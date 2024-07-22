@@ -31,7 +31,7 @@ function Subscription() {
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.async = true;
     script.onload = () => {
-      console.log('Razorpay script loaded');
+      // console.log('Razorpay script loaded');
       setRazorpayLoaded(true);
     };
     script.onerror = () => {
@@ -53,7 +53,7 @@ function Subscription() {
     setLoading(true);
     try {
       const res = await axios.post('/api/create-subscription', {});
-      console.log('Subscription created:', res.data);
+      // console.log('Subscription created:', res.data);
       await opPayment(res.data.id);
     } catch (error) {
       console.error('Subscription creation error:', error);
@@ -80,7 +80,7 @@ function Subscription() {
           setLoading(false);
           resolve(response);
           if (response)
-            console.log(response);
+            // console.log(response);
             saveSubscription(response?.razorpay_payment_id)
         },
       };
@@ -108,7 +108,7 @@ function Subscription() {
         active: true
       });
 
-      console.log(user?.primaryEmailAddress?.emailAddress);
+      // console.log(user?.primaryEmailAddress?.emailAddress);
       
       if (result) {
         window.location.reload();

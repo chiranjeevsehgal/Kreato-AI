@@ -8,7 +8,7 @@ const Navbar = () => {
       <Link href="/">
         <Image
             src="/logo.svg"
-            alt="A beautiful landscape"
+            alt="Kreato AI"
             width={150}
             height={110}
             />

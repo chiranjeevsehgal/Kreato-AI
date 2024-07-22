@@ -14,7 +14,7 @@ const FormSection = ({ selectedTemplate, userFormInput, loading }: SELECTEDTEMPL
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
-        console.log('formData', formData);
+        // console.log('formData', formData);
     }
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
