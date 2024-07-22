@@ -32,7 +32,7 @@ const CreateNewContent = (props: PROPS) => {
     const selectedTemplate: TEMPLATES | undefined = Templates?.find((item) => item.slug === props.params["template-slug"]);
 
     const generateAiContent = async (formData: string) => {
-        if (totalUsage > 800 && !userSubscription) {
+        if (totalUsage > 10000 && !userSubscription) {
             toast.error("Please Upgrade", {
                 style: {
                     background: '#333',

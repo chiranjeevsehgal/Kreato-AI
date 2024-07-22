@@ -26,9 +26,9 @@ export const navLinks = [
 
   export const Features = [
     {
-      label: "15+ templates",
+      label: "20+ templates",
       icon: LayoutTemplateIcon,
-      desc: "Access over 15 diverse AI-generated content templates to enhance creativity and productivity in your app.",
+      desc: "Access over 20 diverse AI-generated content templates to enhance creativity and productivity.",
     },
     {
       label: "Seamless Copying",
@@ -58,7 +58,7 @@ export const navLinks = [
       credits: "Free",
       inclusions: [
         {
-          label: Intl.NumberFormat('en-US').format(800) +" Credits",
+          label: Intl.NumberFormat('en-US').format(10000) +" Credits",
           isIncluded: true,
         },
         {
@@ -97,7 +97,7 @@ export const navLinks = [
         },
         {
           label: "Priority Updates",
-          isIncluded: false,
+          isIncluded: true,
         },
       ],
     },

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useAuth } from "@clerk/nextjs";
 import { Search, Menu, X } from "lucide-react";
 import Link from 'next/link';
 import { UserSubscriptionContext } from '@/app/(context)/UserSubscriptionContext';
@@ -11,6 +11,8 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
   const { userSubscription } = useContext(UserSubscriptionContext);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { isLoaded, isSignedIn } = useAuth();
+
 
   return (
     <header className="bg-gray-900 text-white shadow-md z-20">
@@ -40,24 +42,36 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
           </div>
           
           <div className="flex items-center space-x-2 sm:space-x-4">
-            {!userSubscription ? (
-              <Link href="/dashboard/subscription" className="bg-blue-600 text-white text-xs font-semibold py-2 px-3 rounded-full hover:bg-blue-700 transition-colors duration-300">
-                🔥 Join Membership
-              </Link>
-            ) : (
-              <div className="cursor-pointer bg-yellow-600 text-white text-xs font-semibold py-2 px-3 rounded-full">
-                🌟 Gold Member
-              </div>
-            )}
-            
-            <UserButton 
-              afterSignOutUrl="/"
-              appearance={{
-                elements: {
-                  avatarBox: "border-2 border-white"
-                }
-              }}
-            />
+          {isLoaded && (
+        <>
+          {!isSignedIn ? (
+            <Link href="/sign-in" className="bg-blue-600 text-white text-xs font-semibold py-2 px-6 rounded-full hover:bg-blue-700 transition-colors duration-300">
+              🔑 Sign In
+            </Link>
+          ) : (
+            <>
+              {!userSubscription ? (
+                <Link href="/dashboard/subscription" className="bg-blue-600 text-white text-xs font-semibold py-2 px-3 rounded-full hover:bg-blue-700 transition-colors duration-300">
+                  🔥 Join Membership
+                </Link>
+              ) : (
+                <div className="cursor-pointer bg-yellow-600 text-white text-xs font-semibold py-2 px-3 rounded-full">
+                  🌟 Gold Member
+                </div>
+              )}
+              
+              <UserButton 
+                afterSignOutUrl="/dashboard"
+                appearance={{
+                  elements: {
+                    avatarBox: "border-2 border-white"
+                  }
+                }}
+              />
+            </>
+          )}
+        </>
+      )}
           </div>
         </div>
       </div>

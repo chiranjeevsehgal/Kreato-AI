@@ -6,9 +6,8 @@ const Footer = () => {
         <div>
             <div className="mb-0 w-full py-5 px-5 sm:flex sm:items-center sm:justify-center bg-gradient-to-br from-blue-600 to-purple-600 text-white flex justify-center">
           {/* <span className="text-sm text-white sm:text-center">© 2024 <a href="/" className="hover:underline">Kreato Ai</a>. All Rights Reserved. */}
-          <span className="text-sm text-white sm:text-center">© Kreato AI. Made By Chiranjeev Sehgal.
+          <span className="text-sm text-white sm:text-center">© Kreato AI. Made By <a href="https://www.linkedin.com/in/chiranjeevsehgal/" target='__blank' className="hover:underline">Chiranjeev Sehgal</a>.
           </span>
-          
       </div>
         </div>
 

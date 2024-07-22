@@ -1,23 +1,5 @@
 export const Templates = [
     {
-        name: 'Write Code',
-        desc: 'AI Model to generate programming code in any language',
-        icon: 'https://cdn-icons-png.flaticon.com/128/6062/6062646.png',
-        category: 'Coding',
-
-        slug: 'write-code',
-        aiPrompt: 'Depends on user codeDescription write a code and give output in  in rich text editor format in code block ',
-        form: [
-            {
-                label: 'Enter description of code you want along with Programming Lang',
-                field: 'textarea',
-                name: 'codeDesscripton',
-                required: true
-            },
-
-        ]
-    },
-    {
         name: 'Explain Code',
         desc: 'AI Model to explain programming code in any language',
         icon: 'https://cdn-icons-png.flaticon.com/128/8488/8488751.png',
@@ -48,6 +30,24 @@ export const Templates = [
                 label: 'Enter code which you want to test bug',
                 field: 'textarea',
                 name: 'codeInput',
+                required: true
+            },
+
+        ]
+    },
+    {
+        name: 'Write Code',
+        desc: 'AI Model to generate programming code in any language',
+        icon: 'https://cdn-icons-png.flaticon.com/128/6062/6062646.png',
+        category: 'Coding',
+
+        slug: 'write-code',
+        aiPrompt: 'Depends on user codeDescription write a code and give output in  in rich text editor format in code block ',
+        form: [
+            {
+                label: 'Enter description of code you want along with Programming Lang',
+                field: 'textarea',
+                name: 'codeDesscripton',
                 required: true
             },
 

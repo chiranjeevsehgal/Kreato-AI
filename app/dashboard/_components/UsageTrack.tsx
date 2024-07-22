@@ -21,7 +21,7 @@ const UsageTrack: React.FC<UsageTrackProps> = ({ isExpanded }) => {
   const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
   const { updateUsage } = useContext(UpdateCreditUsage);
   const { userSubscription, setUserSubscription } = useContext(UserSubscriptionContext);
-  const [maxWords, setMaxWords] = useState<number>(800);
+  const [maxWords, setMaxWords] = useState<number>(10000);
 
   useEffect(() => {
     if (user) {
@@ -49,7 +49,7 @@ const UsageTrack: React.FC<UsageTrackProps> = ({ isExpanded }) => {
   const IsUserSubscribe = async (): Promise<void> => {
     const result = await db.select().from(UserSubscription).where(eq(UserSubscription.email as any, user?.primaryEmailAddress?.emailAddress));
     setUserSubscription(result && result.length > 0);
-    setMaxWords(result && result.length > 0 ? 10000 : 800);
+    setMaxWords(result && result.length > 0 ? 100000 : 10000);
   }
 
   const percentage = Math.min((totalUsage / maxWords) * 100, 100);
