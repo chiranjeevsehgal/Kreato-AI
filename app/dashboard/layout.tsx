@@ -5,7 +5,6 @@ import { UpdateCreditUsage } from "../(context)/UpdateCreditUsage";
 import { UserSubscriptionContext } from "../(context)/UserSubscriptionContext";
 import Header from "./_components/Header";
 import Sidebar from "./_components/Sidebar";
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { Toaster } from 'react-hot-toast';
 import { motion } from 'framer-motion';
 
@@ -21,7 +20,6 @@ const Layout = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || '';
 
   const toggleSidebar = () => setIsSidebarExpanded(!isSidebarExpanded);
   const openMobileMenu = () => setIsMobileMenuOpen(true);
@@ -42,7 +40,7 @@ const Layout = ({
   }, []);
 
   return (
-    <PayPalScriptProvider options={{ clientId }}>
+    // <PayPalScriptProvider options={{ clientId }}>
       <TotalUsageContext.Provider value={{ totalUsage, setTotalUsage }}>
         <UserSubscriptionContext.Provider value={{ userSubscription, setUserSubscription }}>
           <UpdateCreditUsage.Provider value={{ updateUsage, setUpdateUsage }}>
@@ -94,7 +92,7 @@ const Layout = ({
           </UpdateCreditUsage.Provider>
         </UserSubscriptionContext.Provider>
       </TotalUsageContext.Provider>
-    </PayPalScriptProvider>
+    // </PayPalScriptProvider>
   );
 };
 
